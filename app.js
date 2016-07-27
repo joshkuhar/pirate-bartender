@@ -44,8 +44,6 @@ var question = new Questions();
 console.log(question.askQuestion(1));
 
 
-var a = ["a", "b", "c", "d"];
-
 var Drink = function(){
   this.ingredient = [];
 };
