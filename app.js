@@ -3,16 +3,22 @@
 var questionNumber = 0;
 
 $('.answer').on('click', 'span', function(){
-	
-	if ( $( this ).attr('id') === 'yes') {
+	if ( $( this ).attr('id') === 'yes'  &&  questionNumber === 0 ){
 		tryIt(questionNumber);
+		$('.question').text('').text(question.questions[questionNumber]);
+		questionNumber++;
+	} else if ( $( this ).attr('id') === 'no'  &&  questionNumber === 0 ){
+		$('.question').text('').text("Yer nuttin but a blowfish. Arrrgh!");
+	} else if ( $( this ).attr('id') === 'yes' && questionNumber < 5) {
+		$('.question').text('').text(question.questions[questionNumber]);
+		tryIt(questionNumber);
+		questionNumber++;
+	} else if (questionNumber < 5){
+		$('.question').text('').text(question.questions[questionNumber]);
+		questionNumber++;
 	} else {
-		console.log("no");
+		$('#description, #recipe').css('display', 'block');
 	}
-
-	questionNumber++;
-	console.log( $( this ).attr('id') );
-	console.log(questionNumber);
 })
 
 //Drink - this is the drink object
@@ -49,7 +55,6 @@ var pantry = new Pantry();
 
 var Questions = function(){
   this.questions = [
-  	"Are ye curious enough to try one of me drinks?",
 	"Do ye like yer drinks strong?", 
 	"Do ye like it with a salty tang?", 
 	"Are ye a lubber who likes it bitter?", 
@@ -66,8 +71,6 @@ function tryIt(q){
   pantry.add(pantry.getIngredient(q));
 }
 
-console.log(question.askQuestion(questionNumber));
 
-console.log(pantry.getIngredient(questionNumber));
 
 
