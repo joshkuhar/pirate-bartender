@@ -17,21 +17,22 @@ $('.answer').on('click', 'span', function(){
 		$('.question').text('').text(question.questions[questionNumber]);
 		questionNumber++;
 	} else {
-		$('#description, #recipe').css('display', 'block');
+		$('#play-again, #description, #recipe').css('display', 'block');
+		$('.question, .answer').hide();
 	}
 })
 
-//Drink - this is the drink object
+//this is the drink object
 var Drink = function(){
   this.drinkIngredients = [];
 };
 
-//add() - this function adds an ingredient to the drink
+//this function adds an ingredient to the drink
 Drink.prototype.add = function(ingredient) {
   this.drinkIngredients.push(ingredient);
 };
 
-//Pantry - this is the list of drink ingredients
+//this is the list of drink ingredients
 var Pantry = function(){
   Drink.call(this);
   this.pantryIngredients = [
@@ -67,6 +68,7 @@ Questions.prototype.askQuestion = function(questionNumber) {
 };
 var question = new Questions();
 
+//This adds the ingredient to the drink
 function tryIt(q){
   pantry.add(pantry.getIngredient(q));
 }

@@ -11,7 +11,7 @@
 .answer {
 	margin-bottom: 1em;
 }
-#description, #recipe {
+#play-again, #description, #recipe {
 	display: none;
 	margin-bottom: 1em;
 }
