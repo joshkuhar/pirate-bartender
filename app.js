@@ -4,7 +4,6 @@ var questionNumber = 0;
 
 $('.answer').on('click', 'span', function(){
 	if ( $( this ).attr('id') === 'yes'  &&  questionNumber === 0 ){
-		//addIt(questionNumber);
 		$('.question').text('').text(question.questions[questionNumber]);
 		questionNumber++;
 	} else if ( $( this ).attr('id') === 'no'  &&  questionNumber === 0 ){
@@ -20,7 +19,16 @@ $('.answer').on('click', 'span', function(){
 	} else if (questionNumber < 5){
 		$('.question').text('').text(question.questions[questionNumber]);
 		questionNumber++;
-	} else {
+	} 
+	else if ( $( this ).attr('id') === 'yes' && questionNumber === 5) {
+		addIt(questionNumber);
+		$('#play-again, #description, #recipe, #ingredients').css('display', 'block');
+		$('.question, .answer').hide();
+		bartender.makeDrink(pantry.drinkIngredients);
+		$('#recipe').append(bartender.drinkDescription(bartender.description));
+		$('#description').append(bartender.drinkName(bartender.nameAdjective, bartender.nameNoun));
+	}
+	else {
 		$('#play-again, #description, #recipe, #ingredients').css('display', 'block');
 		$('.question, .answer').hide();
 		bartender.makeDrink(pantry.drinkIngredients);
@@ -134,13 +142,6 @@ Bartender.prototype.drinkName = function(firstName, secondName){
 };
 
 var bartender = new Bartender();
-
-
-
-
-
-
-
 
 
 
