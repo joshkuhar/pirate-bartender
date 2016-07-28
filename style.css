@@ -1,3 +1,43 @@
+
+body {
+    background-color: #32AAFA;
+    font-family: 'Roboto Condensed', sans-serif;
+	background: #32AAFA; /* fallback for old browsers */ /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #1C6BA0 , #32AAFA); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
+}
+
+h1, h2, .question {
+	color: white;
+	text-shadow: .05em .05em .05em #333;
+}
+
+.question {
+	font-size: 1.5em;
+}
+
+span, #play-again  {
+	font-size: 1.5em;
+	color: yellow;
+}
+
+#description {
+	font-weight: 800;
+	color: white;
+	font-size: 2em;
+}
+
+#recipe {
+	color: white;
+	font-size: 1.5em;
+	text-shadow: .05em .05em .05em #333;
+}
+
+.list {
+	color: white;
+	width: 12em;
+	text-align: left;
+}
+
 .container {
 	width: 30em;
 	margin: 0 auto;
@@ -6,6 +46,7 @@
 }
 .question {
 	margin-bottom: 1em;
+	min-height: 2.3em;
 }
 .answer {
 	margin-bottom: 1em;
@@ -15,8 +56,8 @@
 	margin-bottom: 1em;
 }
 #ingredients {
-    text-align: left;
-    width: 10em;
+    width: 12em;
     margin: 0 auto;
+    color: white;
 }
   
