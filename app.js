@@ -28,10 +28,12 @@ $('.answer').on('click', 'span', function(){
 $('#play-again').on('click', function(){
 	console.log("clicked play again");
 	questionNumber = 0;
-	$('#play-again, #description, #recipe, #ingredients').text('').css('display', 'none');
-	$('.question').text('');
+	$('#description, #recipe, #ingredients').text('').css('display', 'none');
+	$('.question, .list').text('');
+	$('#play-again').css('display', 'none');
 	$('.question').append("Ye liked the sting didn't ye? Another then?");
 	$('.question, .answer').show();
+	bartender.emptyDrink();
 });
 
 //this is the drink object
@@ -106,6 +108,10 @@ Bartender.prototype.makeDrink = function(ingredients){
   		$('#ingredients').append("<div class='list'> Arr! A " + ingredients[i] + "</div></br>");
 	}
 };
+
+Bartender.prototype.emptyDrink = function(){
+	pantry.drinkIngredients.length = 0;
+}
 
 Bartender.prototype.drinkDescription = function(descriptions){
 	return this.description[Math.floor((Math.random() * descriptions.length))];
