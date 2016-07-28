@@ -1,55 +1,82 @@
 'use strict';
+//Global variable to keep track of questions
+var questionNumber = 0;
 
-var Question = function(question) {
-  this.question = question;
-};
+$('.answer').on('click', 'span', function(){
+	if ( $( this ).attr('id') === 'yes'  &&  questionNumber === 0 ){
+		$('.question').text('').text(question.questions[questionNumber]);
+		questionNumber++;
+	} else if ( $( this ).attr('id') === 'no'  &&  questionNumber === 0 ){
+		$('.question').text('').text("Yer nuttin but a blowfish. Arrrgh!");
+	} else if ( $( this ).attr('id') === 'no'  &&  questionNumber === 1 ) {
+		pantry.add("bottle of beer");
+		$('.question').text('').text(question.questions[questionNumber]);
+		questionNumber++;
+	} else if ( $( this ).attr('id') === 'yes' && questionNumber < 5) {
+		$('.question').text('').text(question.questions[questionNumber]);
+		addIt(questionNumber);
+		questionNumber++;
+	} else if (questionNumber < 5){
+		$('.question').text('').text(question.questions[questionNumber]);
+		questionNumber++;
+	} 
+	else if ( $( this ).attr('id') === 'yes' && questionNumber === 5) {
+		addIt(questionNumber);
+		$('#play-again, #description, #recipe, #ingredients').css('display', 'block');
+		$('.question, .answer').hide();
+		bartender.makeDrink(pantry.drinkIngredients);
+		$('#recipe').append(bartender.drinkDescription(bartender.description));
+		$('#description').append(bartender.drinkName(bartender.nameAdjective, bartender.nameNoun));
+	}
+	else {
+		$('#play-again, #description, #recipe, #ingredients').css('display', 'block');
+		$('.question, .answer').hide();
+		bartender.makeDrink(pantry.drinkIngredients);
+		$('#recipe').append(bartender.drinkDescription(bartender.description));
+		$('#description').append(bartender.drinkName(bartender.nameAdjective, bartender.nameNoun));
+	}
+});
 
-var Ingredients = function(ingredients) {
-  this.ingredients = ingredients;
-};
+$('#play-again').on('click', function(){
+	console.log("clicked play again");
+	questionNumber = 0;
+	$('#description, #recipe, #ingredients').text('').css('display', 'none');
+	$('.question, .list').text('');
+	$('#play-again').css('display', 'none');
+	$('.question').append("Ye liked the sting didn't ye? Another then?");
+	$('.question, .answer').show();
+	bartender.emptyDrink();
+});
 
-var Pantry = function(pantryItem) {
-  this.pantry = pantryItem;
-};
-
-var questionOne = new Question("Do ye like yer drinks strong?");
-var questionTwo = new Question("Do ye like it with a salty tang?");
-var questionThree = new Question("Are ye a lubber who likes it bitter?");
-var questionFour = new Question("Would ye like a bit of sweetness with yer poison?");
-var questionFive = new Question("Are ye one for a fruity finish?");
-
-var questions = [
-	"Do ye like yer drinks strong?", 
-	"Do ye like it with a salty tang?", 
-	"Are ye a lubber who likes it bitter?", 
-	"Would ye like a bit of sweetness with yer poison?", 
-	"Are ye one for a fruity finish?"];
-
-	/*
+//this is the drink object
 var Drink = function(){
-  this.ingredients = [];
+  this.drinkIngredients = [];
 };
 
+//this function adds an ingredient to the drink
 Drink.prototype.add = function(ingredient) {
-  this.ingredients.push(ingredient);
+  this.drinkIngredients.push(ingredient);
 };
 
+//this is the list of drink ingredients
 var Pantry = function(){
   Drink.call(this);
-  this.ingredients = [
-  ["Glug of rum", "slug of whisky", "splash of gin"],
-  ["Olive on a stick", "salt-dusted rim", "rasher of bacon"],
-  ["Shake of bitters", "splash of tonic", "twist of lemon peel"],
-  ["Sugar cube", "spoonful of honey", "splash of cola"],
-  ["Slice of orange", "dash of cassis", "cherry on top"]
+  this.pantryIngredients = [
+  [],
+  ["Strong", "glug of rum", "slug of whisky", "splash of gin"],
+  ["Salty", "olive on a stick", "salt-dusted rim", "rasher of bacon"],
+  ["Bitter", "shake of bitters", "splash of tonic", "twist of lemon peel"],
+  ["Sweetness", "sugar cube", "spoonful of honey", "splash of cola"],
+  ["Fruity", "slice of orange", "dash of cassis", "cherry on top"]
     ];
 };
 
 Pantry.prototype = Object.create(Drink.prototype);
 Pantry.prototype.constructor = Pantry;
 
-Pantry.prototype.getIngredient = function(number){
-  return this.ingredients[number][0];
+//getIngredient() - this function pulls an ingredient from the pantry
+Pantry.prototype.getIngredient = function(questionNumber){
+  return this.pantryIngredients[questionNumber][Math.floor((Math.random() * 3) + 1)];
 };
 
 var pantry = new Pantry();
@@ -66,72 +93,56 @@ var Questions = function(){
 Questions.prototype.askQuestion = function(questionNumber) {
   return this.questions[questionNumber];
 };
-
 var question = new Questions();
-console.log(question.askQuestion(1));
 
-
-var a = ["a", "b", "c", "d"];
-
-var Drink = function(){
-  this.ingredient = [];
-};
-
-Drink.prototype.add = function(ingredient) {
-  this.ingredient.push(ingredient);
-};
-
-
-
-
-var x = new Drink();
-I want to present a series of questions.
-If the question is answered with a yes, then I want to add an item to drink 
-from the pantry. 
-Once completed, I want to display the new drink.
-
-question with 
-
-var Pantry = function(preference) {
-	var drink = [];
-	grab preference and add to drink;
+//This adds the ingredient to the drink
+function addIt(q){
+  pantry.add(pantry.getIngredient(q));
 }
 
-  this.strong = ["Glug of rum", "slug of whisky", "splash of gin"];
-  this.salty = ["Olive on a stick", "salt-dusted rim", "rasher of bacon"];
-  this.bitter = ["Shake of bitters", "splash of tonic", "twist of lemon peel"];
-  this.sweet = ["Sugar cube", "spoonful of honey", "splash of cola"];
-  this.fruity = ["Slice of orange", "dash of cassis", "cherry on top"];
+var Bartender = function(){
+	Drink.call(this);
+	this.description = ["This drink'll put the hair back on yer chest. Hopes ye ain't be a lass!",
+	"This drink'll make ye forgets about blimey everything! Can ye lend me a sawbuck?", 
+	"Had this one for breakfast. Still feeling its waves, if ye catch my drift!",
+	"I hope ye like it. Yer the first'll ever sipped it. Aye!",
+	"Ye'll be likely to fall in love with toad after a few of these. Aye!",
+	"Not so sure 'bout this one. Might be a little on the weakly side. Aye!",
+	"I'll be sure to be getting better looking after this one. Arrr!",
+	"This one be my mother's monkey. She grew a moustache with it. Ahoy!",
+	"I did me best with what yer asking. Aye!"
+	];
+	this.nameAdjective = ["Slippery", "Salty", "Floatn'", "Smelly", "Blowin'", "Whistling",
+	"Peg-legged", "Girly", "Bearded", "Ugly", "One-eyed"
+	];
+	this.nameNoun = ["Lubber", "Dolphin", "Seagull", "Lad", "Sail", "Ship", "Morning", "Gang Plank",
+	"Parrot", "Cheese", "Penguin"
+	];
 
-var Strong = ["Glug of rum", "slug of whisky", "splash of gin"]
-var Salty = ["Olive on a stick", "salt-dusted rim", "rasher of bacon"]
-var Bitter = ["Shake of bitters", "splash of tonic", "twist of lemon peel"]
-var Sweet = ["Sugar cube", "spoonful of honey", "splash of cola"]
-var Fruity = ["Slice of orange", "dash of cassis", "cherry on top"]
+};
+Bartender.prototype = Object.create(Drink.prototype);
+Bartender.prototype.constructor = Bartender;
 
-Strong ingredients: ["Glug of rum", "slug of whisky", "splash of gin"]
-Salty ingredients: ["Olive on a stick", "salt-dusted rim", "rasher of bacon"]
-Bitter ingredients: ["Shake of bitters", "splash of tonic", "twist of lemon peel"]
-Sweet ingredients: ["Sugar cube", "spoonful of honey", "splash of cola"]
-Fruity ingredients: ["Slice of orange", "dash of cassis", "cherry on top"]
+Bartender.prototype.makeDrink = function(ingredients){
+	for (var i = 0; i < ingredients.length; i++) {
+  		$('#ingredients').append("<div class='list'> Arr! A " + ingredients[i] + "</div></br>");
+	}
+};
 
-var Pantry = function(){
-	this.rum = "Glug of Rum";
-	this.whiskey = "slug of whiskey";
-	this.gin = "splash of gin";
-	this.olive = "Olive on a stick";
-	this.salt = "salt-dusted rim";
-	this.bacon = "rasher of backon";
-	this.bitters = "Shake of bitters";
-	this.tonic = "splash of tonic";
-	this.lemon = "twist of lemon peel";
-	this.sugar = "Sugar cube";
-	this.honey = "spoonful of honey";
-	this.cola = "splash of cola";
-	this.orange = "slice of orange";
-	this.cassis = "dash of cassis";
-	this.cherry = "cherry on top";
+Bartender.prototype.emptyDrink = function(){
+	pantry.drinkIngredients.length = 0;
 }
 
+Bartender.prototype.drinkDescription = function(descriptions){
+	return this.description[Math.floor((Math.random() * descriptions.length))];
+};
 
-	*/
+Bartender.prototype.drinkName = function(firstName, secondName){
+	return this.nameAdjective[Math.floor((Math.random() * firstName.length))] + " " + this.nameNoun[Math.floor((Math.random() * secondName.length))];
+};
+
+var bartender = new Bartender();
+
+
+
+

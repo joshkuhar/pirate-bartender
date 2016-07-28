@@ -2,9 +2,21 @@
 	width: 30em;
 	margin: 0 auto;
 	text-align: center;
-	border: .02em red solid;
-}
-
-.question, .answer {
 	font-family: Arial, Helvetica, sans-serif;
 }
+.question {
+	margin-bottom: 1em;
+}
+.answer {
+	margin-bottom: 1em;
+}
+#play-again, #description, #recipe {
+	display: none;
+	margin-bottom: 1em;
+}
+#ingredients {
+    text-align: left;
+    width: 10em;
+    margin: 0 auto;
+}
+  
