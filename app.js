@@ -4,14 +4,18 @@ var questionNumber = 0;
 
 $('.answer').on('click', 'span', function(){
 	if ( $( this ).attr('id') === 'yes'  &&  questionNumber === 0 ){
-		tryIt(questionNumber);
+		//addIt(questionNumber);
 		$('.question').text('').text(question.questions[questionNumber]);
 		questionNumber++;
 	} else if ( $( this ).attr('id') === 'no'  &&  questionNumber === 0 ){
 		$('.question').text('').text("Yer nuttin but a blowfish. Arrrgh!");
+	} else if ( $( this ).attr('id') === 'no'  &&  questionNumber === 1 ) {
+		pantry.add("bottle of beer");
+		$('.question').text('').text(question.questions[questionNumber]);
+		questionNumber++;
 	} else if ( $( this ).attr('id') === 'yes' && questionNumber < 5) {
 		$('.question').text('').text(question.questions[questionNumber]);
-		tryIt(questionNumber);
+		addIt(questionNumber);
 		questionNumber++;
 	} else if (questionNumber < 5){
 		$('.question').text('').text(question.questions[questionNumber]);
@@ -50,6 +54,7 @@ Drink.prototype.add = function(ingredient) {
 var Pantry = function(){
   Drink.call(this);
   this.pantryIngredients = [
+  [],
   ["Strong", "glug of rum", "slug of whisky", "splash of gin"],
   ["Salty", "olive on a stick", "salt-dusted rim", "rasher of bacon"],
   ["Bitter", "shake of bitters", "splash of tonic", "twist of lemon peel"],
@@ -83,7 +88,7 @@ Questions.prototype.askQuestion = function(questionNumber) {
 var question = new Questions();
 
 //This adds the ingredient to the drink
-function tryIt(q){
+function addIt(q){
   pantry.add(pantry.getIngredient(q));
 }
 
@@ -93,10 +98,17 @@ var Bartender = function(){
 	"This drink'll make ye forgets about blimey everything! Can ye lend me a sawbuck?", 
 	"Had this one for breakfast. Still feeling its waves, if ye catch my drift!",
 	"I hope ye like it. Yer the first'll ever sipped it. Aye!",
+	"Ye'll be likely to fall in love with toad after a few of these. Aye!",
+	"Not so sure 'bout this one. Might be a little on the weakly side. Aye!",
+	"I'll be sure to be getting better looking after this one. Arrr!",
+	"This one be my mother's monkey. She grew a moustache with it. Ahoy!",
+	"I did me best with what yer asking. Aye!"
 	];
-	this.nameAdjective = ["Slippery", "Salty", "Floatn'", "Wavy", "Blowin'", "Whistling",
-	"Peg-legged", "Girly", "Bearded", "Ugly", "One-eyed"];
-	this.nameNoun = ["Lubber", "Dolphin", "Seagull", "Lad", "Sail", "Ship", "Morning", "Gang Plank"
+	this.nameAdjective = ["Slippery", "Salty", "Floatn'", "Smelly", "Blowin'", "Whistling",
+	"Peg-legged", "Girly", "Bearded", "Ugly", "One-eyed"
+	];
+	this.nameNoun = ["Lubber", "Dolphin", "Seagull", "Lad", "Sail", "Ship", "Morning", "Gang Plank",
+	"Parrot", "Cheese", "Penguin"
 	];
 
 };
