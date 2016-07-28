@@ -17,10 +17,22 @@ $('.answer').on('click', 'span', function(){
 		$('.question').text('').text(question.questions[questionNumber]);
 		questionNumber++;
 	} else {
-		$('#play-again, #description, #recipe').css('display', 'block');
+		$('#play-again, #description, #recipe, #ingredients').css('display', 'block');
 		$('.question, .answer').hide();
+		bartender.makeDrink(pantry.drinkIngredients);
+		$('#recipe').append(bartender.drinkDescription(bartender.description));
+		$('#description').append(bartender.drinkName(bartender.nameAdjective, bartender.nameNoun));
 	}
-})
+});
+
+$('#play-again').on('click', function(){
+	console.log("clicked play again");
+	questionNumber = 0;
+	$('#play-again, #description, #recipe, #ingredients').text('').css('display', 'none');
+	$('.question').text('');
+	$('.question').append("Ye liked the sting didn't ye? Another then?");
+	$('.question, .answer').show();
+});
 
 //this is the drink object
 var Drink = function(){
@@ -72,6 +84,45 @@ var question = new Questions();
 function tryIt(q){
   pantry.add(pantry.getIngredient(q));
 }
+
+var Bartender = function(){
+	Drink.call(this);
+	this.description = ["This drink'll put the hair back on yer chest. Hopes ye ain't be a lass!",
+	"This drink'll make ye forgets about blimey everything! Can ye lend me a sawbuck?", 
+	"Had this one for breakfast. Still feeling its waves, if ye catch my drift!",
+	"I hope ye like it. Yer the first'll ever sipped it. Aye!",
+	];
+	this.nameAdjective = ["Slippery", "Salty", "Floatn'", "Wavy", "Blowin'", "Whistling",
+	"Peg-legged", "Girly", "Bearded", "Ugly", "One-eyed"];
+	this.nameNoun = ["Lubber", "Dolphin", "Seagull", "Lad", "Sail", "Ship", "Morning", "Gang Plank"
+	];
+
+};
+Bartender.prototype = Object.create(Drink.prototype);
+Bartender.prototype.constructor = Bartender;
+
+Bartender.prototype.makeDrink = function(ingredients){
+	for (var i = 0; i < ingredients.length; i++) {
+  		$('#ingredients').append("<div class='list'> Arr! A " + ingredients[i] + "</div></br>");
+	}
+};
+
+Bartender.prototype.drinkDescription = function(descriptions){
+	return this.description[Math.floor((Math.random() * descriptions.length))];
+};
+
+Bartender.prototype.drinkName = function(firstName, secondName){
+	return this.nameAdjective[Math.floor((Math.random() * firstName.length))] + " " + this.nameNoun[Math.floor((Math.random() * secondName.length))];
+};
+
+var bartender = new Bartender();
+
+
+
+
+
+
+
 
 
 

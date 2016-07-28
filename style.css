@@ -15,3 +15,9 @@
 	display: none;
 	margin-bottom: 1em;
 }
+#ingredients {
+    text-align: left;
+    width: 10em;
+    margin: 0 auto;
+}
+  
